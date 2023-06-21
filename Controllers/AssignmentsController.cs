@@ -10,16 +10,16 @@ using KanbanProject.Models;
 
 namespace KanbanProject.Controllers
 {
-    public class TasksController : Controller
+    public class AssignmentsController : Controller
     {
         private readonly KanbanProjectContext _context;
 
-        public TasksController(KanbanProjectContext context)
+        public AssignmentsController(KanbanProjectContext context)
         {
             _context = context;
         }
 
-        // GET: Tasks
+        // GET: Assignments
         public async Task<IActionResult> Index()
         {
               return _context.Task != null ? 
@@ -27,7 +27,7 @@ namespace KanbanProject.Controllers
                           Problem("Entity set 'KanbanProjectContext.Task'  is null.");
         }
 
-        // GET: Tasks/Details/5
+        // GET: Assignments/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null || _context.Task == null)
@@ -35,39 +35,39 @@ namespace KanbanProject.Controllers
                 return NotFound();
             }
 
-            var task = await _context.Task
+            var assignment = await _context.Task
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (task == null)
+            if (assignment == null)
             {
                 return NotFound();
             }
 
-            return View(task);
+            return View(assignment);
         }
 
-        // GET: Tasks/Create
+        // GET: Assignments/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Tasks/Create
+        // POST: Assignments/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Description")] Task task)
+        public async Task<IActionResult> Create([Bind("Id,Name,Description")] Assignment assignment)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(task);
+                _context.Add(assignment);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(task);
+            return View(assignment);
         }
 
-        // GET: Tasks/Edit/5
+        // GET: Assignments/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null || _context.Task == null)
@@ -75,22 +75,22 @@ namespace KanbanProject.Controllers
                 return NotFound();
             }
 
-            var task = await _context.Task.FindAsync(id);
-            if (task == null)
+            var assignment = await _context.Task.FindAsync(id);
+            if (assignment == null)
             {
                 return NotFound();
             }
-            return View(task);
+            return View(assignment);
         }
 
-        // POST: Tasks/Edit/5
+        // POST: Assignments/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Description")] Task task)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Description")] Assignment assignment)
         {
-            if (id != task.Id)
+            if (id != assignment.Id)
             {
                 return NotFound();
             }
@@ -99,12 +99,12 @@ namespace KanbanProject.Controllers
             {
                 try
                 {
-                    _context.Update(task);
+                    _context.Update(assignment);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!TaskExists(task.Id))
+                    if (!AssignmentExists(assignment.Id))
                     {
                         return NotFound();
                     }
@@ -115,10 +115,10 @@ namespace KanbanProject.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(task);
+            return View(assignment);
         }
 
-        // GET: Tasks/Delete/5
+        // GET: Assignments/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || _context.Task == null)
@@ -126,17 +126,17 @@ namespace KanbanProject.Controllers
                 return NotFound();
             }
 
-            var task = await _context.Task
+            var assignment = await _context.Task
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (task == null)
+            if (assignment == null)
             {
                 return NotFound();
             }
 
-            return View(task);
+            return View(assignment);
         }
 
-        // POST: Tasks/Delete/5
+        // POST: Assignments/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
@@ -145,17 +145,17 @@ namespace KanbanProject.Controllers
             {
                 return Problem("Entity set 'KanbanProjectContext.Task'  is null.");
             }
-            var task = await _context.Task.FindAsync(id);
-            if (task != null)
+            var assignment = await _context.Task.FindAsync(id);
+            if (assignment != null)
             {
-                _context.Task.Remove(task);
+                _context.Task.Remove(assignment);
             }
             
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool TaskExists(int id)
+        private bool AssignmentExists(int id)
         {
           return (_context.Task?.Any(e => e.Id == id)).GetValueOrDefault();
         }
