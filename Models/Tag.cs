@@ -10,5 +10,6 @@ namespace KanbanProject.Models
         [Required]
         public string Colour { get; set; }
         public string? Description { get; set; }
+        Task? Task { get; set; }
     }
 }
