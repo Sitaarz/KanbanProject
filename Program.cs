@@ -1,4 +1,9 @@
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using KanbanProject.Data;
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddDbContext<KanbanProjectContext>(options =>
+    options.UseSqlite(builder.Configuration.GetConnectionString("KanbanProjectContext") ?? throw new InvalidOperationException("Connection string 'KanbanProjectContext' not found.")));
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
