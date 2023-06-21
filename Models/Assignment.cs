@@ -2,14 +2,15 @@
 
 namespace KanbanProject.Models
 {
-    public class Tag
+    public class Assignment
     {
         public int Id { get; set; }
         [Required]
         public string Name { get; set; }
         [Required]
-        public string Colour { get; set; }
-        public string? Description { get; set; }
-        Assignment? Task { get; set; }
+        public string Description { get; set; }
+        public User? User { get; set; }
+        public Note? Note { get; set; }
+        public Tag? Tag { get; set; }
     }
 }

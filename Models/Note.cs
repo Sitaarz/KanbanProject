@@ -7,6 +7,6 @@ namespace KanbanProject.Models
         public int Id { get; set; }
         [Required]
         public string note {  get; set; }
-        Task? Task { get; set; }
+        Assignment? Task { get; set; }
     }
 }
