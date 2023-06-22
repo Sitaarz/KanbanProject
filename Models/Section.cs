@@ -2,11 +2,12 @@
 
 namespace KanbanProject.Models
 {
-    public class Note
+    public class Section
     {
         public int Id { get; set; }
         [Required]
-        public string note {  get; set; }
-        Assignment? Task { get; set; }
+        public string Name { get; set; }
+        List<Assignment>? assignments { get; set; }
+
     }
 }

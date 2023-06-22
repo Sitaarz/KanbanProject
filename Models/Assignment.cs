@@ -10,7 +10,7 @@ namespace KanbanProject.Models
         [Required]
         public string Description { get; set; }
         public User? User { get; set; }
-        public Note? Note { get; set; }
+        public Section? Note { get; set; }
         public Tag? Tag { get; set; }
     }
 }

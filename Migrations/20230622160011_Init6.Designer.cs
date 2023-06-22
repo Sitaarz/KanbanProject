@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace KanbanProject.Migrations
 {
     [DbContext(typeof(KanbanProjectContext))]
-    [Migration("20230621193056_InitV2")]
-    partial class InitV2
+    [Migration("20230622160011_Init6")]
+    partial class Init6
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -51,22 +51,22 @@ namespace KanbanProject.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Task");
+                    b.ToTable("Assignment");
                 });
 
-            modelBuilder.Entity("KanbanProject.Models.Note", b =>
+            modelBuilder.Entity("KanbanProject.Models.Section", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("note")
+                    b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Notes");
+                    b.ToTable("Section");
                 });
 
             modelBuilder.Entity("KanbanProject.Models.Tag", b =>
@@ -79,16 +79,16 @@ namespace KanbanProject.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Description")
-                        .HasColumnType("TEXT");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("Title")
+                        .HasColumnType("TEXT");
+
                     b.HasKey("Id");
 
-                    b.ToTable("Tags");
+                    b.ToTable("Tag");
                 });
 
             modelBuilder.Entity("KanbanProject.Models.User", b =>
@@ -107,12 +107,12 @@ namespace KanbanProject.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Users");
+                    b.ToTable("User");
                 });
 
             modelBuilder.Entity("KanbanProject.Models.Assignment", b =>
                 {
-                    b.HasOne("KanbanProject.Models.Note", "Note")
+                    b.HasOne("KanbanProject.Models.Section", "Note")
                         .WithMany()
                         .HasForeignKey("NoteId");
 

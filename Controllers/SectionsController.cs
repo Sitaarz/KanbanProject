@@ -10,87 +10,87 @@ using KanbanProject.Models;
 
 namespace KanbanProject.Controllers
 {
-    public class AssignmentsController : Controller
+    public class SectionsController : Controller
     {
         private readonly KanbanProjectContext _context;
 
-        public AssignmentsController(KanbanProjectContext context)
+        public SectionsController(KanbanProjectContext context)
         {
             _context = context;
         }
 
-        // GET: Assignments
+        // GET: Sections
         public async Task<IActionResult> Index()
         {
-              return _context.Task != null ? 
-                          View(await _context.Task.ToListAsync()) :
-                          Problem("Entity set 'KanbanProjectContext.Task'  is null.");
+              return _context.Section != null ? 
+                          View(await _context.Section.ToListAsync()) :
+                          Problem("Entity set 'KanbanProjectContext.Section'  is null.");
         }
 
-        // GET: Assignments/Details/5
+        // GET: Sections/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null || _context.Task == null)
+            if (id == null || _context.Section == null)
             {
                 return NotFound();
             }
 
-            var assignment = await _context.Task
+            var section = await _context.Section
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (assignment == null)
+            if (section == null)
             {
                 return NotFound();
             }
 
-            return View(assignment);
+            return View(section);
         }
 
-        // GET: Assignments/Create
+        // GET: Sections/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Assignments/Create
+        // POST: Sections/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Description")] Assignment assignment)
+        public async Task<IActionResult> Create([Bind("Id,Name")] Section section)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(assignment);
+                _context.Add(section);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(assignment);
+            return View(section);
         }
 
-        // GET: Assignments/Edit/5
+        // GET: Sections/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.Task == null)
+            if (id == null || _context.Section == null)
             {
                 return NotFound();
             }
 
-            var assignment = await _context.Task.FindAsync(id);
-            if (assignment == null)
+            var section = await _context.Section.FindAsync(id);
+            if (section == null)
             {
                 return NotFound();
             }
-            return View(assignment);
+            return View(section);
         }
 
-        // POST: Assignments/Edit/5
+        // POST: Sections/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Description")] Assignment assignment)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name")] Section section)
         {
-            if (id != assignment.Id)
+            if (id != section.Id)
             {
                 return NotFound();
             }
@@ -99,12 +99,12 @@ namespace KanbanProject.Controllers
             {
                 try
                 {
-                    _context.Update(assignment);
+                    _context.Update(section);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!AssignmentExists(assignment.Id))
+                    if (!SectionExists(section.Id))
                     {
                         return NotFound();
                     }
@@ -115,49 +115,49 @@ namespace KanbanProject.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(assignment);
+            return View(section);
         }
 
-        // GET: Assignments/Delete/5
+        // GET: Sections/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null || _context.Task == null)
+            if (id == null || _context.Section == null)
             {
                 return NotFound();
             }
 
-            var assignment = await _context.Task
+            var section = await _context.Section
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (assignment == null)
+            if (section == null)
             {
                 return NotFound();
             }
 
-            return View(assignment);
+            return View(section);
         }
 
-        // POST: Assignments/Delete/5
+        // POST: Sections/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.Task == null)
+            if (_context.Section == null)
             {
-                return Problem("Entity set 'KanbanProjectContext.Task'  is null.");
+                return Problem("Entity set 'KanbanProjectContext.Section'  is null.");
             }
-            var assignment = await _context.Task.FindAsync(id);
-            if (assignment != null)
+            var section = await _context.Section.FindAsync(id);
+            if (section != null)
             {
-                _context.Task.Remove(assignment);
+                _context.Section.Remove(section);
             }
             
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool AssignmentExists(int id)
+        private bool SectionExists(int id)
         {
-          return (_context.Task?.Any(e => e.Id == id)).GetValueOrDefault();
+          return (_context.Section?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }
