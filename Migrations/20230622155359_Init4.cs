@@ -5,24 +5,11 @@
 namespace KanbanProject.Migrations
 {
     /// <inheritdoc />
-    public partial class Init : Migration
+    public partial class Init4 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.CreateTable(
-                name: "Note",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    note = table.Column<string>(type: "TEXT", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Note", x => x.Id);
-                });
-
             migrationBuilder.CreateTable(
                 name: "Tag",
                 columns: table => new
@@ -31,7 +18,7 @@ namespace KanbanProject.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     Name = table.Column<string>(type: "TEXT", nullable: false),
                     Colour = table.Column<string>(type: "TEXT", nullable: false),
-                    Description = table.Column<string>(type: "TEXT", nullable: true)
+                    Title = table.Column<string>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -53,7 +40,7 @@ namespace KanbanProject.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Task",
+                name: "Assignment",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
@@ -66,37 +53,37 @@ namespace KanbanProject.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Task", x => x.Id);
+                    table.PrimaryKey("PK_Assignment", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Task_Note_NoteId",
+                        name: "FK_Assignment_Section_NoteId",
                         column: x => x.NoteId,
-                        principalTable: "Note",
+                        principalTable: "Section",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_Task_Tag_TagId",
+                        name: "FK_Assignment_Tag_TagId",
                         column: x => x.TagId,
                         principalTable: "Tag",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_Task_User_UserId",
+                        name: "FK_Assignment_User_UserId",
                         column: x => x.UserId,
                         principalTable: "User",
                         principalColumn: "Id");
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Task_NoteId",
-                table: "Task",
+                name: "IX_Assignment_NoteId",
+                table: "Assignment",
                 column: "NoteId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Task_TagId",
-                table: "Task",
+                name: "IX_Assignment_TagId",
+                table: "Assignment",
                 column: "TagId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Task_UserId",
-                table: "Task",
+                name: "IX_Assignment_UserId",
+                table: "Assignment",
                 column: "UserId");
         }
 
@@ -104,10 +91,7 @@ namespace KanbanProject.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Task");
-
-            migrationBuilder.DropTable(
-                name: "Note");
+                name: "Assignment");
 
             migrationBuilder.DropTable(
                 name: "Tag");
