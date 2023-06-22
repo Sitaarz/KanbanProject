@@ -14,7 +14,9 @@ namespace KanbanProject.Data
         {
         }
 
-        public DbSet<KanbanProject.Models.Assignment> Task { get; set; } = default!;
+        public DbSet<KanbanProject.Models.Section> Section { get; set; } = default!;
+        public DbSet<KanbanProject.Models.User> User { get; set; } = default!;
         public DbSet<KanbanProject.Models.Tag> Tag { get; set; } = default!;
+        public DbSet<KanbanProject.Models.Assignment> Assignment { get; set; } = default!;
     }
 }

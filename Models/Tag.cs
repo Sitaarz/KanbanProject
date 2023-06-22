@@ -9,7 +9,7 @@ namespace KanbanProject.Models
         public string Name { get; set; }
         [Required]
         public string Colour { get; set; }
-        public string? Description { get; set; }
-        Assignment? Task { get; set; }
+        public string? Title { get; set; }
+        List <Assignment>? Assignments { get; set; }
     }
 }

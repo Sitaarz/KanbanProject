@@ -9,6 +9,6 @@ namespace KanbanProject.Models
         public string Login { get; set; }
         [Required]
         public string Password { get; set; }
-        Assignment? Task { get; set; }
+        List <Assignment>? Assignment { get; set; }
     }
 }
