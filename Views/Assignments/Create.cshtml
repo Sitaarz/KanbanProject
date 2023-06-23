@@ -29,7 +29,7 @@
                 </select>
             </div>
             <div>
-                <label for="sectionName">Przypisz zadanie do osoby</label>
+                <label for="sectionName">Przypisz zadanie do sekcji</label>
                 <select name="sectionName" id="sectionName">
                     @foreach (var sekcja in ViewBag.dataBase.Section)
                     {
@@ -38,7 +38,7 @@
                 </select>
             </div>
             <div>
-                <label for="tagName">Przypisz zadanie do osoby</label>
+                <label for="tagName">Przypisz tag do zadania</label>
                 <select name="tagName" id="tagName">
                     @foreach (var tag in ViewBag.dataBase.Tag)
                     {
