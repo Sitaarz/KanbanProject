@@ -10,102 +10,93 @@ using KanbanProject.Models;
 
 namespace KanbanProject.Controllers
 {
-    public class SectionsController : Controller
+    public class TagsController : Controller
     {
         private readonly KanbanProjectContext _context;
 
-        public SectionsController(KanbanProjectContext context)
+        public TagsController(KanbanProjectContext context)
         {
             _context = context;
         }
-        public IActionResult ProjectView()
-        {
-            if (HttpContext.Session.GetInt32("IsLogged") == 0) return RedirectToAction("Login", "Home");
-            return View(_context);
-        }
 
-        
-
-        // GET: Sections
+        // GET: Tags
         public async Task<IActionResult> Index()
         {
             if (HttpContext.Session.GetInt32("IsLogged") == 0) return RedirectToAction("Login", "Home");
-            return _context.Section != null ? 
-                          View(await _context.Section.ToListAsync()) :
-                          Problem("Entity set 'KanbanProjectContext.Section'  is null.");
+            return _context.Tag != null ? 
+                          View(await _context.Tag.ToListAsync()) :
+                          Problem("Entity set 'KanbanProjectContext.Tag'  is null.");
         }
 
-        // GET: Sections/Details/5
+        // GET: Tags/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (HttpContext.Session.GetInt32("IsLogged") == 0) return RedirectToAction("Login", "Home");
-            if (id == null || _context.Section == null)
+            if (id == null || _context.Tag == null)
             {
                 return NotFound();
             }
 
-            var section = await _context.Section
+            var tag = await _context.Tag
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (section == null)
+            if (tag == null)
             {
                 return NotFound();
             }
 
-            return View(section);
+            return View(tag);
         }
 
-        // GET: Sections/Create
+        // GET: Tags/Create
         public IActionResult Create()
         {
             if (HttpContext.Session.GetInt32("IsLogged") == 0) return RedirectToAction("Login", "Home");
             return View();
         }
 
-        // POST: Sections/Create
+        // POST: Tags/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name")] Section section)
+        public async Task<IActionResult> Create([Bind("Id,Name,Colour")] Tag tag)
         {
             if (HttpContext.Session.GetInt32("IsLogged") == 0) return RedirectToAction("Login", "Home");
             if (ModelState.IsValid)
             {
-                _context.Add(section);
+                _context.Add(tag);
                 await _context.SaveChangesAsync();
-                return RedirectToAction("ProjectView");
+                return RedirectToAction(nameof(Index));
             }
-            return View(section);
+            return View(tag);
         }
 
-
-
-        // GET: Sections/Edit/5
+        // GET: Tags/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (HttpContext.Session.GetInt32("IsLogged") == 0) return RedirectToAction("Login", "Home");
-            if (id == null || _context.Section == null)
+            if (id == null || _context.Tag == null)
             {
                 return NotFound();
             }
 
-            var section = await _context.Section.FindAsync(id);
-            if (section == null)
+            var tag = await _context.Tag.FindAsync(id);
+            if (tag == null)
             {
                 return NotFound();
             }
-            return View(section);
+            return View(tag);
         }
 
-        // POST: Sections/Edit/5
+        // POST: Tags/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name")] Section section)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Colour")] Tag tag)
         {
             if (HttpContext.Session.GetInt32("IsLogged") == 0) return RedirectToAction("Login", "Home");
-            if (id != section.Id)
+            if (id != tag.Id)
             {
                 return NotFound();
             }
@@ -114,12 +105,12 @@ namespace KanbanProject.Controllers
             {
                 try
                 {
-                    _context.Update(section);
+                    _context.Update(tag);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!SectionExists(section.Id))
+                    if (!TagExists(tag.Id))
                     {
                         return NotFound();
                     }
@@ -130,58 +121,51 @@ namespace KanbanProject.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(section);
+            return View(tag);
         }
 
-        //GET: Sections/Delete/5
+        // GET: Tags/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (HttpContext.Session.GetInt32("IsLogged") == 0) return RedirectToAction("Login", "Home");
-            if (id == null || _context.Section == null)
+            if (id == null || _context.Tag == null)
             {
                 return NotFound();
             }
 
-            var section = await _context.Section
+            var tag = await _context.Tag
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (section == null)
+            if (tag == null)
             {
                 return NotFound();
             }
 
-            return View(section);
+            return View(tag);
         }
 
-        // POST: Sections/Delete/5
+        // POST: Tags/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             if (HttpContext.Session.GetInt32("IsLogged") == 0) return RedirectToAction("Login", "Home");
-            if (_context.Section == null)
+            if (_context.Tag == null)
             {
-                return Problem("Entity set 'KanbanProjectContext.Section'  is null.");
+                return Problem("Entity set 'KanbanProjectContext.Tag'  is null.");
             }
-            var section = await _context.Section.FindAsync(id);
-            if (section != null)
+            var tag = await _context.Tag.FindAsync(id);
+            if (tag != null)
             {
-                foreach(var assignment in _context.Assignment)
-                {
-                    if (assignment.SectionId == id) 
-                    { 
-                    _context.Assignment.Remove(assignment);
-                    }
-                }
-                _context.Section.Remove(section);
+                _context.Tag.Remove(tag);
             }
             
             await _context.SaveChangesAsync();
-            return RedirectToAction("ProjectView");
+            return RedirectToAction(nameof(Index));
         }
 
-        private bool SectionExists(int id)
+        private bool TagExists(int id)
         {
-          return (_context.Section?.Any(e => e.Id == id)).GetValueOrDefault();
+          return (_context.Tag?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }

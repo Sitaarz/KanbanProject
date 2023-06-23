@@ -7,7 +7,7 @@ namespace KanbanProject.Models
         public int Id { get; set; }
         [Required]
         public string Name { get; set; }
-        List<Assignment>? assignments { get; set; }
+        public List<Assignment>? Assignments { get; set; } = new List<Assignment>();
 
     }
 }

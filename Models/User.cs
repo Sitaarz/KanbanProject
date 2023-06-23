@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.Extensions.Hosting;
+using System.ComponentModel.DataAnnotations;
 
 namespace KanbanProject.Models
 {
@@ -9,6 +10,6 @@ namespace KanbanProject.Models
         public string Login { get; set; }
         [Required]
         public string Password { get; set; }
-        List <Assignment>? Assignment { get; set; }
+        public List <Assignment>? Assignments { get;  } = new List<Assignment>();
     }
 }

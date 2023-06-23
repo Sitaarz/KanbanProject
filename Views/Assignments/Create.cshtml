@@ -1,0 +1,52 @@
+﻿@model KanbanProject.Models.Assignment
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>Assignment</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-controller="Assignments" asp-action="Create" method="post">
+            <div>
+                <label for="name">Nazwa zadania</label>
+                <input name="name" id="name" />
+            </div>
+            <div>
+                <label for="description">Opis zadania</label>
+                <input name="description" id="description" />
+            </div>
+            <div>
+                <label for="userLogin">Przypisz zadanie do osoby</label>
+                <select name="userLogin" id="userLogin">
+                    @foreach (var user in ViewBag.dataBase.User)
+                    {
+                        <option value= "@user.Login">@user.Login</option>
+                    }
+                </select>
+            </div>
+            <div>
+                <label for="sectionName">Przypisz zadanie do osoby</label>
+                <select name="sectionName" id="sectionName">
+                    @foreach (var sekcja in ViewBag.dataBase.Section)
+                    {
+                        <option value="@sekcja.Name">@sekcja.Name</option>
+                    }
+                </select>
+            </div>
+            <div>
+                <label for="tagName">Przypisz zadanie do osoby</label>
+                <select name="tagName" id="tagName">
+                    @foreach (var tag in ViewBag.dataBase.Tag)
+                    {
+                        <option value="@tag.Name">@tag.Name</option>
+                    }
+                </select>
+            </div>
+            <div>
+                <button type="submit" class="btn btn-primary">Potwierdź</button>
+            </div>
+        </form>

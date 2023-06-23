@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace KanbanProject.Models
 {
@@ -9,8 +10,20 @@ namespace KanbanProject.Models
         public string Name { get; set; }
         [Required]
         public string Description { get; set; }
-        public User? User { get; set; }
-        public Section? Note { get; set; }
-        public Tag? Tag { get; set; }
+
+
+        [ForeignKey("UserLogin")]
+        public int UserId { get; set; }
+        public User? User { get; set; } = null!;
+
+
+        [ForeignKey("SectionName")]
+        public int SectionId { get; set; }
+        public Section? Note { get; set; } = null!;
+
+
+        [ForeignKey("TagName")]
+        public int TagId { get; set; }
+        public Tag? Tag { get; set; } = null!;
     }
 }

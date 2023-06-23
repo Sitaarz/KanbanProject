@@ -16,13 +16,15 @@ namespace KanbanProject.Controllers
 
         public UsersController(KanbanProjectContext context)
         {
+            
             _context = context;
         }
 
         // GET: Users
         public async Task<IActionResult> Index()
         {
-              return _context.User != null ? 
+            if (HttpContext.Session.GetInt32("IsLogged") == 0) return RedirectToAction("Login", "Home");
+            return _context.User != null ? 
                           View(await _context.User.ToListAsync()) :
                           Problem("Entity set 'KanbanProjectContext.User'  is null.");
         }
@@ -30,6 +32,7 @@ namespace KanbanProject.Controllers
         // GET: Users/Details/5
         public async Task<IActionResult> Details(int? id)
         {
+            if (HttpContext.Session.GetInt32("IsLogged") == 0) return RedirectToAction("Login", "Home");
             if (id == null || _context.User == null)
             {
                 return NotFound();
@@ -48,6 +51,7 @@ namespace KanbanProject.Controllers
         // GET: Users/Create
         public IActionResult Create()
         {
+            if (HttpContext.Session.GetInt32("IsLogged") == 0) return RedirectToAction("Login", "Home");
             ViewData["Exist"] = false;
             return View();
         }
@@ -59,14 +63,16 @@ namespace KanbanProject.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Login,Password")] User user)
         {
+            if (HttpContext.Session.GetInt32("IsLogged") == 0) return RedirectToAction("Login", "Home");
             if (!_context.User.Any(x => (x.Login == user.Login && x.Password == user.Password)))
             {
                 
                 if (ModelState.IsValid)
                 {
                     _context.Add(user);
+                    HttpContext.Session.SetInt32("IsLogged", 1);
                     await _context.SaveChangesAsync();
-                    return RedirectToAction(nameof(Index));
+                    return RedirectToAction("ProjectView","Sections");
                 }
                 return View(user);
 
@@ -78,6 +84,7 @@ namespace KanbanProject.Controllers
         // GET: Users/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+            if (HttpContext.Session.GetInt32("IsLogged") == 0) return RedirectToAction("Login", "Home");
             if (id == null || _context.User == null)
             {
                 return NotFound();
@@ -98,6 +105,7 @@ namespace KanbanProject.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Login,Password")] User user)
         {
+            if (HttpContext.Session.GetInt32("IsLogged") == 0) return RedirectToAction("Login", "Home");
             if (id != user.Id)
             {
                 return NotFound();
@@ -129,6 +137,7 @@ namespace KanbanProject.Controllers
         // GET: Users/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
+            if (HttpContext.Session.GetInt32("IsLogged") == 0) return RedirectToAction("Login", "Home");
             if (id == null || _context.User == null)
             {
                 return NotFound();
@@ -149,6 +158,7 @@ namespace KanbanProject.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
+            if (HttpContext.Session.GetInt32("IsLogged") == 0) return RedirectToAction("Login", "Home");
             if (_context.User == null)
             {
                 return Problem("Entity set 'KanbanProjectContext.User'  is null.");

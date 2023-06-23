@@ -22,10 +22,7 @@ namespace KanbanProject.Controllers
             return View();
         }
 
-        public IActionResult Privacy()
-        {
-            return View();
-        }
+        
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
@@ -49,18 +46,19 @@ namespace KanbanProject.Controllers
                     if (_context.User.Any(x => (x.Login == user.Login && x.Password == user.Password)))
                     {
                         HttpContext.Session.SetInt32("IsLogged", 1);
-                        return RedirectToAction("Index");
+                        return RedirectToAction("ProjectView", "Sections");
                     }
                     
                 }
                 ViewBag.IsValid = false;
                 return View(user);
             }
-            return RedirectToAction("Index");
+            return RedirectToAction("ProjectView", "Sections"); ;
         }
 
         public IActionResult Logout()
         {
+            if (HttpContext.Session.GetInt32("IsLogged") == 0) return RedirectToAction("Login", "Home");
             HttpContext.Session.SetInt32("IsLogged", 0);
             return RedirectToAction("Index");
         }
