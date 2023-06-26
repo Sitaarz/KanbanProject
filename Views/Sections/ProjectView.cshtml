@@ -52,7 +52,14 @@
                             }
                             @foreach(var user in Model.User){
                                 if(user.Id == element.UserId){
-                                    <p>Przypisane do: @user.Login</p>
+                                    foreach(var userInformation in Model.UserInformation)
+                                    {
+                                        if(userInformation.UserId == user.Id)
+                                        {
+                                            <p>Przypisane do: @userInformation.Name @userInformation.Surname</p>
+                                        }
+                                    }
+                                    
                                 }
                             }
                             <p>Opis zadania: @element.Description</p>

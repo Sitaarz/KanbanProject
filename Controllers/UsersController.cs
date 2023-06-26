@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using KanbanProject.Data;
 using KanbanProject.Models;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace KanbanProject.Controllers
 {
@@ -51,8 +53,9 @@ namespace KanbanProject.Controllers
         // GET: Users/Create
         public IActionResult Create()
         {
-            if (HttpContext.Session.GetInt32("IsLogged") == 0) return RedirectToAction("Login", "Home");
+            //if (HttpContext.Session.GetInt32("IsLogged") == 0) return RedirectToAction("Login", "Home");
             ViewData["Exist"] = false;
+            
             return View();
         }
 
@@ -61,24 +64,27 @@ namespace KanbanProject.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Login,Password")] User user)
-        {
-            if (HttpContext.Session.GetInt32("IsLogged") == 0) return RedirectToAction("Login", "Home");
-            if (!_context.User.Any(x => (x.Login == user.Login && x.Password == user.Password)))
+        public async Task<IActionResult> Create(User user)
+        {                
+            
+            if  (ModelState.IsValid)
             {
-                
-                if (ModelState.IsValid)
+                user.Password = CalculateMD5(user.Password);
+                if (!_context.User.Any(x => (x.Login == user.Login && x.Password == user.Password)))
                 {
+                    
                     _context.Add(user);
+                    
+
                     HttpContext.Session.SetInt32("IsLogged", 1);
                     await _context.SaveChangesAsync();
                     return RedirectToAction("ProjectView","Sections");
                 }
-                return View(user);
+                return View();
 
             }
             ViewData["exist"] = true;
-            return View(user);
+            return View();
         }
 
         // GET: Users/Edit/5
@@ -176,6 +182,23 @@ namespace KanbanProject.Controllers
         private bool UserExists(int id)
         {
           return (_context.User?.Any(e => e.Id == id)).GetValueOrDefault();
+        }
+
+        private string CalculateMD5(string input)
+        {
+            using (MD5 md5 = MD5.Create())
+            {
+                byte[] inputBytes = Encoding.UTF8.GetBytes(input);
+                byte[] hashBytes = md5.ComputeHash(inputBytes);
+
+                StringBuilder sb = new StringBuilder();
+                for (int i = 0; i < hashBytes.Length; i++)
+                {
+                    sb.Append(hashBytes[i].ToString("x2")); // Konwersja na postać szesnastkową
+                }
+
+                return sb.ToString();
+            }
         }
     }
 }

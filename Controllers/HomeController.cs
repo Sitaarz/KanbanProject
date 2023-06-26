@@ -3,6 +3,8 @@ using KanbanProject.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace KanbanProject.Controllers
 {
@@ -39,6 +41,7 @@ namespace KanbanProject.Controllers
         [HttpPost]
         public IActionResult Login([Bind("Id,Login,Password")] User user)
         {
+            user.Password = CalculateMD5(user.Password);
             if(HttpContext.Session.GetInt32("IsLogged") != 1)
             {
                 if (ModelState.IsValid)
@@ -63,7 +66,22 @@ namespace KanbanProject.Controllers
             return RedirectToAction("Index");
         }
 
-        
+        private string CalculateMD5(string input)
+        {
+            using (MD5 md5 = MD5.Create())
+            {
+                byte[] inputBytes = Encoding.UTF8.GetBytes(input);
+                byte[] hashBytes = md5.ComputeHash(inputBytes);
+
+                StringBuilder sb = new StringBuilder();
+                for (int i = 0; i < hashBytes.Length; i++)
+                {
+                    sb.Append(hashBytes[i].ToString("x2")); // Konwersja na postać szesnastkową
+                }
+
+                return sb.ToString();
+            }
+        }
 
     }
 }

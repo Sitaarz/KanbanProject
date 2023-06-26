@@ -11,5 +11,6 @@ namespace KanbanProject.Models
         [Required]
         public string Password { get; set; }
         public List <Assignment>? Assignments { get;  } = new List<Assignment>();
+        public UserInformation? UserInformation { get; set; }
     }
 }

@@ -19,6 +19,7 @@ namespace KanbanProject.Data
         public DbSet<KanbanProject.Models.User> User { get; set; } = default!;
         public DbSet<KanbanProject.Models.Tag> Tag { get; set; } = default!;
         public DbSet<KanbanProject.Models.Assignment> Assignment { get; set; } = default!;
+        public DbSet<KanbanProject.Models.UserInformation> UserInformation { get; set; } = default!;
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -36,6 +37,10 @@ namespace KanbanProject.Data
                 .HasOne(a => a.Tag)
                 .WithMany(t => t.Assignments)
                 .HasForeignKey(a => a.TagId);
+            modelBuilder.Entity<User>()
+                .HasOne(u => u.UserInformation)
+                .WithOne(ui => ui.User)
+                .HasForeignKey<UserInformation>(ui => ui.UserId);
 
             base.OnModelCreating(modelBuilder);
         }
