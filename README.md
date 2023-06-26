@@ -19,3 +19,16 @@ Projekt strony internetowej KanbanProject został zrealizowany przy użyciu nast
 - Framework: ASP.NET Core
 - Język programowania: C#
 - Baza danych: SQLite
+
+## Uruchomienie aplikacji
+1. Sprawdź, czy masz zainstalowany framework .NET 7.0 na swoim komputerze. Możesz to zrobić, wpisując polecenie "dotnet" w wierszu poleceń lub terminalu. Jeśli otrzymasz odpowiedź z informacjami o narzędziu .NET, oznacza to, że jest on zainstalowany. W przeciwnym razie, musisz pobrać i zainstalować najnowszą wersję ze strony oficjalnej firmy Microsoft.
+
+2. Przejdź do katalogu, w którym znajduje się ten plik za pomocą wiersza poleceń lub terminala.
+
+3. Wprowadź następujące polecenie w wierszu poleceń lub terminalu:
+
+```
+dotnet run
+```
+
+To polecenie uruchamia aplikację .NET. Framework .NET automatycznie wykrywa, jaki projekt należy uruchomić na podstawie obecności pliku projektu w bieżącym katalogu.
